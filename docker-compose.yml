@@ -22,3 +22,12 @@ services:
       volumes:
         - /data/db:/data/db
       restart: unless-stopped
+
+    tretton_caching:
+      image: redis:6.2.6
+      container_name: tretton_caching_service
+      ports:
+        - "6379:6379"
+      volumes:
+        - /var/lib/redis:/data
+      restart: unless-stopped

@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest './*.test.js' --config=jest.config.js"
+    "test": "jest './*.test.js' --config=jest.config.js --detectOpenHandles"
   },
   "author": "Kanaan Bahmani",
   "license": "MIT",
@@ -17,7 +17,8 @@
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.8"
+    "mongoose": "^6.0.8",
+    "redis": "^4.0.2"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^2.1.0",

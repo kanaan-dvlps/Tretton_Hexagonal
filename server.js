@@ -3,6 +3,11 @@ const bodyParser = require('body-parser');
 const ODM = require('mongoose');
 const app = express();
 const process = require('process');
+const os = require('os');
+
+// ! ##### Constants #####
+// ? -----------------------
+
 
 // ! ##### Middlewares #####
 // ? -----------------------
@@ -14,24 +19,31 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // ? Routes files
+const GetCoworkers = require('./Routes/GetCoworkers');
+const GetCoworker = require('./Routes/GetCoworker');
+const EditCoworker = require('./Routes/EditCoworker');
+const Login = require('./Routes/Login');
 
 // ? Router middleware
-
-
+app.use('/api/v3', GetCoworkers);
+app.use('/api/v3', GetCoworker);
+app.use('/api/v3', EditCoworker);
+app.use('/api/v3', Login);
 
 // ! ##### Server #####
 // ? -----------------------
 
-const server = app.listen(process.env.PORT, () => {
+const SERVER = app.listen(process.env.PORT, () => {
   ODM.connect(process.env.MONGODB_URI);
 
   // ? Colorized terminal message
-  console.log(`\n\x1b[1m\x1b[33m## SERVER STRATED ON PORT:\x1b[0m\x1b[1m \x1b[32m${process.env.PORT} ## \x1b[0m`);
+  console.log(`-----------------------------------`);
+  console.log(`\n\x1b[1m\x1b[33m PORT:\x1b[0m\x1b[1m \x1b[32m${process.env.PORT} \x1b[0m`);
 
-  console.log(`\x1b[1m\x1b[33m## ADDRESS:\x1b[0m\x1b[1m \x1b[32m${process.env.BASE_URL} ## \x1b[0m \n`);
-
+  console.log(`\x1b[1m\x1b[33m ADDRESS:\x1b[0m\x1b[1m \x1b[32m${process.env.BASE_URL} \x1b[0m`);
+  console.log(`\x1b[1m\x1b[33m IP:\x1b[0m\x1b[1m \x1b[32m${ os.networkInterfaces().eth0[0].address } \x1b[0m`);
+  console.log(`\x1b[1m\x1b[33m HOSTNAME:\x1b[0m\x1b[1m \x1b[32m${ os.hostname() } \x1b[0m \n`);
   // console.log(`\x1b[1m\x1b[33m## ENVIRONMENT:\x1b[0m\x1b[1m \x1b[32m${process.env.ENVIRONMENT} ## \x1b[0m \n`);
-
   ODM.connection.on('error', error => {
     console.log(`\x1b[41m\x1b[1mODM error\x1b[0m`, error);
   });
@@ -47,7 +59,7 @@ function signalHandler(signal) {
   if (signal) {
     console.log(`received signal: ${signal}`);
     console.log(`closing HTTP server`);
-    server.close(() => {
+    SERVER.close(() => {
       console.log(`HTTP server closed gracefully`);
       ODM.connection.close(false, () => {
         console.log(`Database connection closed gracefully`);

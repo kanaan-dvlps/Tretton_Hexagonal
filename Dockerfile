@@ -15,12 +15,13 @@ RUN rm -f .npmrc
 # * --------------> The production image
 FROM node:lts-alpine@sha256:777b5a7bf0c40e37766ff8df382c900f16c688ed05ae3a72d32a26f3e9002cf9
 RUN apk add dumb-init
+RUN npm install -g nodemon
 ENV NODE_ENV production
 USER node
 WORKDIR /app
 COPY --chown=node:node --from=build /app/node_modules /app/node_modules
 COPY --chown=node:node . /app
-CMD ["dumb-init", "node", "server.js"]
+CMD ["dumb-init", "nodemon", "server.js"]
 
 # * Docker is meant to keep the applications running however since this was a container
 # * for development we can use "nodemon" inside of it.
