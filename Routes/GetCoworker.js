@@ -6,7 +6,7 @@ router.get('/coworker/:id', ensureAuthenticated, async (req, res) => {
 
   try {
 
-    const { id } = req.query;
+    const { id } = req.params;
     const coworker = await GetCoworkerAdapter(id);
     if (coworker) {
       res.status(200).send(coworker);

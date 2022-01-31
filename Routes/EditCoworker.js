@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const HandleEditAdapter = require('../Adapters/Inbound/EditCoworkerAdapter');
+const Joi = require('joi');
 
 router.put('/coworker/:id', async (req, res) => {
   try {
 
-    const { id } = req.query;
+    const { id } = req.params;
     const { name, city, text } = req.body;
 
     const validateBody = Joi.object().keys({
@@ -25,7 +26,7 @@ router.put('/coworker/:id', async (req, res) => {
       });
     } else {
       const result = await HandleEditAdapter({ name, city, text, id });
-      return result;
+      res.status(200).send(result);
     }
   } catch (error) {
 
@@ -33,7 +34,7 @@ router.put('/coworker/:id', async (req, res) => {
       error: error.message,
       status: 500
     };
-    
+
   }
 })
 

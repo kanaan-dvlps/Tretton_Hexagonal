@@ -11,7 +11,7 @@ const EditCoworkerProxyPort = require('../Ports/EditCoworkerProxyPort');
 // * Scrapper function
 async function Scrapper(html) {
   try {
-        
+
     const $ = cheerio.load(html);
     const people = [];
     await bluebird.each($('.ninjas').children(), async (item) => {
@@ -68,7 +68,6 @@ async function PersistScrappedData(DATA) {
       const cashedData = await CachePort('coworkers', savedCoworkers);
       return savedCoworkers;
     };
-    console.log('ok');
     return retrivedCache;
 
   } catch (error) {
@@ -147,14 +146,17 @@ async function EditCoworker({ name, city, text, id }) {
 
     if (coworker) {
 
-      const result = await EditCoworkerProxyPort({ name, city, text, id });
-      return result;
+    const result = await EditCoworkerProxyPort({ name, city, text, id });
+    const updatedCoworkers = await GetCoworkersPort();
+    const cashedData = await CachePort('coworkers', updatedCoworkers);
+
+    return result;
 
     }
 
     return {
-      error: `Coworker not found`,
-      status: 404
+    error: `Coworker not found`,
+    status: 404
     };
 
   } catch (error) {

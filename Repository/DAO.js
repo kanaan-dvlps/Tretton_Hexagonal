@@ -9,7 +9,7 @@ const GetEntitiesCount = async () => {
   } catch (error) {
 
     return {
-      error: error,
+      error: error.message,
       status: 500
     };
 
@@ -18,14 +18,14 @@ const GetEntitiesCount = async () => {
 
 const FindEntities = async () => {
   try {
-    
+
     const entities = await Coworker.find().lean();
     return entities;
 
   } catch (error) {
-    
+
     return {
-      error: error,
+      error: error.message,
       status: 500
     };
 
@@ -41,7 +41,7 @@ const FindEntityById = async (id) => {
   } catch (error) {
 
     return {
-      error: error,
+      error: error.message,
       status: 500
     };
 
@@ -58,7 +58,7 @@ const AddEntity = async (Entity) => {
   } catch (error) {
 
     return {
-      error: error,
+      error: error.message,
       status: 500
     };
 
@@ -74,7 +74,7 @@ const AddEntities = async (EntityArray) => {
   } catch (error) {
 
     return {
-      error: error,
+      error: error.message,
       status: 500
     };
 
@@ -83,7 +83,7 @@ const AddEntities = async (EntityArray) => {
 
 const UpdateEntityById = async (Data) => {
   try {
-    const {name, city, text, id} = Data;
+    const { name, city, text, id } = Data;
     const updatedModel = await Coworker.findOneAndUpdate({ _id: id }, {
       $set: {
         name: name,
@@ -100,7 +100,7 @@ const UpdateEntityById = async (Data) => {
   } catch (error) {
 
     return {
-      error: error,
+      error: error.message,
       status: 500
     };
 
@@ -109,11 +109,11 @@ const UpdateEntityById = async (Data) => {
 
 const FilteredData = async (filter, SKIP, LIMIT) => {
   try {
-    
+
     const FilteredEntities = await Coworker.find({
       $or: [
-        { name: { $regex: new RegExp("^" + filter, "i") } }, 
-        { country: { $regex: new RegExp("^" + filter, "i") } }, 
+        { name: { $regex: new RegExp("^" + filter, "i") } },
+        { country: { $regex: new RegExp("^" + filter, "i") } },
         { city: { $regex: new RegExp("^" + filter, "i") } }
       ]
     }).skip(SKIP).limit(LIMIT).lean();
@@ -123,7 +123,7 @@ const FilteredData = async (filter, SKIP, LIMIT) => {
   } catch (error) {
 
     return {
-      error: error,
+      error: error.message,
       status: 500
     };
 
