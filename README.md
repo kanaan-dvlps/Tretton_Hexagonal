@@ -26,10 +26,10 @@ The `GetCoworker` function is responsible for fetching only one coworker and its
 The `EditCoworker` function will edit city, name, and text of the coworker.
 
 ## Routes
-@method `GET` _http://localhost:<PORT>/api/v3/coworkers_
-@method `GET` _http://localhost:<PORT>/api/v3/coworker_
-@method `PUT` _http://localhost:<PORT>/api/v3/coworker/:id_
-@method `POST` _http://localhost:<PORT>/api/v3/login_
+- @method `GET` _http://localhost:<PORT>/api/v3/coworkers_
+- @method `GET` _http://localhost:<PORT>/api/v3/coworker_
+- @method `PUT` _http://localhost:<PORT>/api/v3/coworker/:id_
+- @method `POST` _http://localhost:<PORT>/api/v3/login_
 
 ## Modules
 - Domain Logic: This module is responsible for implementing the whole logic of the application(test).
